@@ -1,0 +1,1 @@
+# PrzelicznikWalut
