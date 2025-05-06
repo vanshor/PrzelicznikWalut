@@ -12,7 +12,7 @@ Aplikacja umożliwia przeliczanie walut na podstawie aktualnych kursów pobieran
 - pobieranie aktualnych kursów walut z API Narodowego Banku Polskiego
 - wybór waluty źródłowej i docelowej
 - wprowadzenie kwoty do przeliczenia
-- ewentualne rozszerzenie aplikacji o wyświetlenie aktualnych kursów walut
+- wyświetlenie aktualnych i historycznych kursów walut (wybrane przez użytkownika waluty dodawane są do bazy danych)
 
 ## Klonowanie repozytorium
 ```
