@@ -24,6 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -41,27 +42,52 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.przelicznikwalut.viewmodel.CurrencyConverterViewModel
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+
 
 // Pobiera flagę dla danej waluty
 fun getFlagForCurrency(currency: String): String {
     return when (currency) {
+        "THB" -> "🇹🇭"
         "USD" -> "🇺🇸"
+        "AUD" -> "🇦🇺"
+        "HKD" -> "🇭🇰"
+        "CAD" -> "🇨🇦"
+        "NZD" -> "🇳🇿"
+        "SGD" -> "🇸🇬"
         "EUR" -> "🇪🇺"
-        "PLN" -> "🇵🇱"
-        "GBP" -> "🇬🇧"
+        "HUF" -> "🇭🇺"
         "CHF" -> "🇨🇭"
-        "NOK" -> "🇳🇴"
-        "SEK" -> "🇸🇪"
-        "DKK" -> "🇩🇰"
+        "GBP" -> "🇬🇧"
+        "UAH" -> "🇺🇦"
         "JPY" -> "🇯🇵"
         "CZK" -> "🇨🇿"
-        "AUD" -> "🇦🇺"
-        "CAD" -> "🇨🇦"
-        "HUF" -> "🇭🇺"
+        "DKK" -> "🇩🇰"
+        "ISK" -> "🇮🇸"
+        "NOK" -> "🇳🇴"
+        "SEK" -> "🇸🇪"
+        "RON" -> "🇷🇴"
+        "BGN" -> "🇧🇬"
+        "TRY" -> "🇹🇷"
+        "ILS" -> "🇮🇱"
+        "CLP" -> "🇨🇱"
+        "PHP" -> "🇵🇭"
+        "MXN" -> "🇲🇽"
+        "ZAR" -> "🇿🇦"
+        "BRL" -> "🇧🇷"
+        "MYR" -> "🇲🇾"
+        "IDR" -> "🇮🇩"
+        "INR" -> "🇮🇳"
+        "KRW" -> "🇰🇷"
         "CNY" -> "🇨🇳"
+        "XDR" -> "🌐"
+        "PLN" -> "🇵🇱"
         else -> "🏳️"
     }
 }
+
 
 @Composable
 fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel()) {
@@ -71,8 +97,9 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
     val result by viewModel.result.collectAsState()
 
     val currencies = listOf(
-        "PLN", "USD", "EUR", "GBP", "CHF", "JPY", "CZK", "NOK", "SEK",
-        "DKK", "CAD", "AUD", "HUF", "CNY"
+        "THB", "USD", "AUD", "HKD", "CAD", "NZD", "SGD", "EUR", "HUF", "CHF", "GBP", "UAH",
+        "JPY", "CZK", "DKK", "ISK", "NOK", "SEK", "RON", "BGN", "TRY", "ILS", "CLP", "PHP",
+        "MXN", "ZAR", "BRL", "MYR", "IDR", "INR", "KRW", "CNY", "XDR"
     )
 
     Column(
@@ -100,7 +127,11 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
                 // Kwota
                 OutlinedTextField(
                     value = amount,
-                    onValueChange = { viewModel.onAmountChanged(it) },
+                    onValueChange = {
+                        // Pozwalaj tylko na cyfry, przecinek i kropkę
+                        val filtered = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
+                        viewModel.onAmountChanged(filtered) },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     label = { Text("Kwota") },
                     leadingIcon = {
                         Icon(
@@ -119,6 +150,16 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
                     selected = sourceCurrency,
                     onOptionSelected = { viewModel.onSourceCurrencyChanged(it) }
                 )
+
+                IconButton(
+                    onClick = { viewModel.swapCurrencies() },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.SwapHoriz,
+                        contentDescription = "Zamień waluty"
+                    )
+                }
 
                 // Na walutę
                 DropdownSelector(
@@ -143,12 +184,25 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
         }
 
         if (result.isNotEmpty()) {
-            Text(
-                text = result,
-                style = MaterialTheme.typography.headlineSmall,
-                color = Color(0xFF1B5E20),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFE8F5E9)
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Text(
+                    text = "💱 $result",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = Color(0xFF1B5E20),
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
         }
     }
 }
@@ -182,7 +236,9 @@ fun DropdownSelector(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 300.dp)
             ) {
                 options.forEach { currency ->
                     DropdownMenuItem(

@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.retrofit.moshi)
     ksp(libs.moshi.codegen)
     implementation(platform(libs.androidx.compose.bom.v20240700))
