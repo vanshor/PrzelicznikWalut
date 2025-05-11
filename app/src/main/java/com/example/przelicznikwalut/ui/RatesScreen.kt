@@ -80,7 +80,7 @@ fun RatesScreen(viewModel: RatesViewModel = viewModel()) {
                     onClick = { dropdownExpanded = true },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp), // ujednolicona wysokość
+                        .height(50.dp),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text("${getFlagForCurrency(selectedCurrency)} $selectedCurrency")
@@ -109,7 +109,7 @@ fun RatesScreen(viewModel: RatesViewModel = viewModel()) {
                 onClick = { viewModel.addCurrency(selectedCurrency) },
                 modifier = Modifier
                     .weight(1f)
-                    .height(50.dp), // ta sama wysokość
+                    .height(50.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Dodaj")
