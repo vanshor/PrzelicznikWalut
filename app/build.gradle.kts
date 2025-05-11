@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.retrofit.moshi)
     ksp(libs.moshi.codegen)
     implementation(platform(libs.androidx.compose.bom.v20240700))
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.material3)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
