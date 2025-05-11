@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -53,31 +54,38 @@ class CurrencyConverterViewModel : ViewModel() {
 
         // Jeśli waluty są takie same – nie przeliczamy
         if (source == target) {
-            _result.value = "%.2f $target".format(amountValue)
+            val numberFormat = NumberFormat.getNumberInstance(Locale("pl", "PL")).apply {
+                maximumFractionDigits = 2
+                minimumFractionDigits = 2
+                isGroupingUsed = true
+            }
+            _result.value = "${numberFormat.format(amountValue)} $target"
             return
         }
 
         viewModelScope.launch {
             try {
+                suspend fun fetchRate(code: String): Double {
+                    return try {
+                        NbpService.api.getTodayRate(code).rates.first().mid
+                    } catch (e: HttpException) {
+                        if (e.code() == 404) {
+                            // Pobierz ostatni kurs, gdy dzisiejszy jest niedostępny
+                            NbpService.api.getLastRate(code).rates.first().mid
+                        } else throw e
+                    }
+                }
+
                 val resultAmount = when {
-                    source == "PLN" -> {
-                        // Przelicz z PLN na inną walutę → podziel przez kurs
-                        val response = NbpService.api.getTodayRate(target)
-                        val rate = response.rates.first().mid
-                        amountValue / rate
-                    }
-                    target == "PLN" -> {
-                        // Przelicz z waluty obcej na PLN → pomnóż przez kurs
-                        val response = NbpService.api.getTodayRate(source)
-                        val rate = response.rates.first().mid
-                        amountValue * rate
-                    }
+                    // Przelicz z PLN na inną walutę → podziel przez kurs
+                    source == "PLN" -> amountValue / fetchRate(target)
+                    // Przelicz z waluty obcej na PLN → pomnóż przez kurs
+                    target == "PLN" -> amountValue * fetchRate(source)
                     else -> {
                         // Inna waluta na inną walutę: source → PLN → target
-                        val sourceRate = NbpService.api.getTodayRate(source).rates.first().mid
-                        val targetRate = NbpService.api.getTodayRate(target).rates.first().mid
-                        val pln = amountValue * sourceRate
-                        pln / targetRate
+                        val sourceRate = fetchRate(source)
+                        val targetRate = fetchRate(target)
+                        (amountValue * sourceRate) / targetRate
                     }
                 }
 
@@ -89,13 +97,14 @@ class CurrencyConverterViewModel : ViewModel() {
                     isGroupingUsed = true
                 }
 
-                val formatted = numberFormat.format(resultAmount)
-                _result.value = "$formatted $target"
+                _result.value = "${numberFormat.format(resultAmount)} $target"
+
             } catch (e: Exception) {
                 _result.value = "Błąd pobierania kursu"
             }
         }
     }
+
 
     // Zamiana walut
     fun swapCurrencies() {

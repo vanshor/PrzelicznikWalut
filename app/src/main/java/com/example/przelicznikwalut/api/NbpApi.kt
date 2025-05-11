@@ -7,6 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface NbpApi {
+    // Kurs dzisiejszy
     @GET("exchangerates/rates/A/{code}/today/?format=json")
     suspend fun getTodayRate(@Path("code") code: String): ExchangeRateResponse
+
+    // Kurs ostatni (w przypadku, gdy dzisiejszy nie jest dostępny)
+    @GET("exchangerates/rates/A/{code}/last/1/?format=json")
+    suspend fun getLastRate(@Path("code") code: String): ExchangeRateResponse
 }
