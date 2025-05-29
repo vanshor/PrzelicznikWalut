@@ -30,6 +30,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +48,7 @@ import java.util.Calendar
 import java.util.Locale
 
 @Composable
-fun RatesScreen(viewModel: RatesViewModel = viewModel()) {
+fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = viewModel()) {
     val savedCurrencies by viewModel.savedCurrencies.collectAsState()
     val allCurrencies = listOf(
         "THB", "USD", "AUD", "HKD", "CAD", "NZD", "SGD", "EUR", "HUF", "CHF", "GBP", "UAH",
@@ -162,7 +164,9 @@ fun RatesScreen(viewModel: RatesViewModel = viewModel()) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(savedCurrencies) { currency ->
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { navController.navigate("history/${currency.code}") },
                     elevation = CardDefaults.cardElevation(4.dp)
                 ) {
                     Row(

@@ -11,11 +11,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.przelicznikwalut.ui.CurrencyConverterScreen
 import com.example.przelicznikwalut.ui.RatesScreen
 import com.example.przelicznikwalut.ui.theme.CurrencyConverterTheme
 import com.example.przelicznikwalut.ui.BottomNavItem
+import com.example.przelicznikwalut.ui.HistoricalRatesScreen
 import com.example.przelicznikwalut.ui.isRouteSelected
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +43,19 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(padding)
                     ) {
                         composable("converter") { CurrencyConverterScreen() }
-                        composable("favorites") { RatesScreen() }
+                        composable("favorites") { RatesScreen(navController) }
+                        composable(
+                            route = "history/{code}",
+                            arguments = listOf(
+                                navArgument("code") { type = NavType.StringType }
+                            )
+                        ) { backStackEntry ->
+                            val code = backStackEntry.arguments?.getString("code") ?: return@composable
+                            HistoricalRatesScreen(
+                                code = code,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
                     }
                 }
             }

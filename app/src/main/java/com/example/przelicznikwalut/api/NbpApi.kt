@@ -22,4 +22,16 @@ interface NbpApi {
         @Path("date") date: String
     ): ExchangeRateResponse
 
+    @GET("exchangerates/rates/A/{code}/last/{count}/?format=json")
+    suspend fun getLastRates(
+        @Path("code") code: String,
+        @Path("count") count: Int
+    ): ExchangeRateResponse
+
+    @GET("exchangerates/rates/A/{code}/{startDate}/{endDate}/?format=json")
+    suspend fun getRatesForPeriod(
+        @Path("code") code: String,
+        @Path("startDate") startDate: String,
+        @Path("endDate") endDate: String
+    ): ExchangeRateResponse
 }
