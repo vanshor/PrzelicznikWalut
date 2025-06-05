@@ -14,6 +14,9 @@ Aplikacja umożliwia przeliczanie walut na podstawie aktualnych kursów pobieran
 - wprowadzenie kwoty do przeliczenia
 - wyświetlenie aktualnych i historycznych kursów walut (wybrane przez użytkownika waluty dodawane są do bazy danych)
 
+## Dokumentacja API
+Dokumentację API Narodowego Banku Polskiego można znaleźć [tutaj](https://api.nbp.pl/)
+
 ## Klonowanie repozytorium
 ```
 git clone https://github.com/vanshor/PrzelicznikWalut
