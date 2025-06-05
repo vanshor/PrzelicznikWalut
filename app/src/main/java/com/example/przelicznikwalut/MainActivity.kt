@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
@@ -28,8 +29,8 @@ class MainActivity : ComponentActivity() {
             CurrencyConverterTheme {
                 val navController = rememberNavController()
                 val items = listOf(
-                    BottomNavItem("converter", "Przelicznik", Icons.Default.Home),
-                    BottomNavItem("favorites", "Moje waluty", Icons.Default.Star)
+                    BottomNavItem("converter", stringResource(R.string.converter_screen_label), Icons.Default.Home),
+                    BottomNavItem("favorites", stringResource(R.string.favorites_screen_label), Icons.Default.Star)
                 )
 
                 Scaffold(

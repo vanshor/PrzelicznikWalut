@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">PrzelicznikWalut</string>
+    <string name="converter_screen_label">Przelicznik</string>
+    <string name="favorites_screen_label">Moje waluty</string>
+    <string name="app_title">Przelicznik walut</string>
+    <string name="amount_label">Kwota</string>
+    <string name="source_currency_label">Z waluty</string>
+    <string name="target_currency_label">Na walutę</string>
+    <string name="swap_currencies_desc">Zamień waluty</string>
+    <string name="convert_button">Przelicz</string>
+    <string name="favorites_title">Moje waluty</string>
+    <string name="add_button">Dodaj</string>
+    <string name="rate_date">Data kursu: %1$s</string>
+    <string name="select_date">Wybierz datę</string>
+    <string name="exchange_rate_format">1 %1$s = %2$.2f PLN\nKurs z %3$s</string>
+    <string name="exchange_rate_with_info">1 %1$s = %2$.2f PLN\nKurs z %3$s (dla %4$s)</string>
+    <string name="delete_currency">Usuń</string>
+    <string name="history_title">Historia %1$s</string>
+    <string name="back">Wstecz</string>
+    <string name="loading">Ładowanie danych…</string>
+    <string name="exchange_rate_item">1 %1$s = %2$.4f PLN</string>
+    <string name="history_7_days">7 dni</string>
+    <string name="history_1_month">1 miesiąc</string>
+    <string name="history_3_months">3 miesiące</string>
+    <string name="history_1_year">1 rok</string>
+    <string name="history_5_years">5 lat</string>
 </resources>

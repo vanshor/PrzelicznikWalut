@@ -35,8 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.przelicznikwalut.viewmodel.HistoricalRatesViewModel
+import com.example.przelicznikwalut.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,11 +48,11 @@ fun HistoricalRatesScreen(
     vm: HistoricalRatesViewModel = viewModel()
 ) {
     val options = mapOf(
-        "7 dni" to 7,
-        "1 miesiąc" to 31,
-        "3 miesiące" to 93,
-        "1 rok" to 365,
-        "5 lat" to 1825
+        stringResource(R.string.history_7_days) to 7,
+        stringResource(R.string.history_1_month) to 31,
+        stringResource(R.string.history_3_months) to 93,
+        stringResource(R.string.history_1_year) to 365,
+        stringResource(R.string.history_5_years) to 1825
     )
 
     var expanded by remember { mutableStateOf(false) }
@@ -65,10 +67,10 @@ fun HistoricalRatesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Historia $code") },
+                title = { Text(stringResource(R.string.history_title, code)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Wstecz")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -123,7 +125,7 @@ fun HistoricalRatesScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(date)
-                                Text("1 $code = ${"%.4f".format(value)} PLN")
+                                Text(stringResource(R.string.exchange_rate_item, code, value))
                             }
                         }
                     }

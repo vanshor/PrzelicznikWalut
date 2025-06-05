@@ -40,11 +40,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.przelicznikwalut.viewmodel.CurrencyConverterViewModel
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.przelicznikwalut.R
 
 
 // Pobiera flagę dla danej waluty
@@ -109,7 +111,7 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
-            text = "Przelicznik walut",
+            text = stringResource(R.string.app_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -132,11 +134,11 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
                         val filtered = it.filter { char -> char.isDigit() || char == ',' || char == '.' }
                         viewModel.onAmountChanged(filtered) },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    label = { Text("Kwota") },
+                    label = { Text(stringResource(R.string.amount_label)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.AttachMoney,
-                            contentDescription = "Kwota"
+                            contentDescription = stringResource(R.string.amount_label)
                         )
                     },
                     modifier = Modifier.fillMaxWidth()
@@ -144,7 +146,7 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
 
                 // Z waluty
                 DropdownSelector(
-                    label = "Z waluty",
+                    label = stringResource(R.string.source_currency_label),
                     icon = Icons.Default.Translate,
                     options = currencies,
                     selected = sourceCurrency,
@@ -157,13 +159,13 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
                 ) {
                     Icon(
                         imageVector = Icons.Default.SwapHoriz,
-                        contentDescription = "Zamień waluty"
+                        contentDescription = stringResource(R.string.swap_currencies_desc)
                     )
                 }
 
                 // Na walutę
                 DropdownSelector(
-                    label = "Na walutę",
+                    label = stringResource(R.string.target_currency_label),
                     icon = Icons.Default.SwapHoriz,
                     options = currencies,
                     selected = targetCurrency,
@@ -178,7 +180,7 @@ fun CurrencyConverterScreen(viewModel: CurrencyConverterViewModel = viewModel())
                         .height(50.dp),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Przelicz")
+                    Text(stringResource(R.string.convert_button))
                 }
             }
         }

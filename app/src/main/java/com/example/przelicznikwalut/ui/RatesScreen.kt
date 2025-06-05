@@ -40,8 +40,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.przelicznikwalut.R
 import com.example.przelicznikwalut.viewmodel.RatesViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -66,7 +68,7 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
             .padding(16.dp)
     ) {
         Text(
-            text = "Ulubione waluty",
+            text = stringResource(R.string.favorites_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -114,7 +116,7 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
                     .height(50.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Dodaj")
+                Text(stringResource(R.string.add_button))
             }
         }
 
@@ -155,9 +157,9 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Data kursu: $selectedDate")
+            Text(stringResource(R.string.rate_date, selectedDate))
             Button(onClick = { datePickerDialog.show() }) {
-                Text("Wybierz datę")
+                Text(stringResource(R.string.select_date))
             }
         }
 
@@ -185,9 +187,20 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
 
                             if (rateInfo != null && rateInfo.rate > 0.0) {
                                 val dateText = if (rateInfo.actualDate != rateInfo.requestedDate)
-                                    "Kurs z ${rateInfo.actualDate} (dla ${rateInfo.requestedDate})"
+                                    stringResource(
+                                        R.string.exchange_rate_with_info,
+                                        rateInfo.code,
+                                        rateInfo.rate,
+                                        rateInfo.actualDate,
+                                        rateInfo.requestedDate
+                                    )
                                 else
-                                    "Kurs z ${rateInfo.actualDate}"
+                                    stringResource(
+                                        R.string.exchange_rate_format,
+                                        rateInfo.code,
+                                        rateInfo.rate,
+                                        rateInfo.actualDate
+                                    )
 
                                 Text(
                                     text = "1 ${rateInfo.code} = ${"%.2f".format(rateInfo.rate)} PLN\n$dateText",
@@ -200,7 +213,7 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
                         IconButton(onClick = { viewModel.removeCurrency(currency) }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Usuń"
+                                contentDescription = stringResource(R.string.delete_currency)
                             )
                         }
                     }
