@@ -203,7 +203,7 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
                                     )
 
                                 Text(
-                                    text = "1 ${rateInfo.code} = ${"%.2f".format(rateInfo.rate)} PLN\n$dateText",
+                                    text = dateText,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.primary
                                 )
