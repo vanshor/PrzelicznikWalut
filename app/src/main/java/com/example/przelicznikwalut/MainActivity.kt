@@ -21,10 +21,12 @@ import com.example.przelicznikwalut.ui.theme.CurrencyConverterTheme
 import com.example.przelicznikwalut.ui.BottomNavItem
 import com.example.przelicznikwalut.ui.HistoricalRatesScreen
 import com.example.przelicznikwalut.ui.isRouteSelected
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             CurrencyConverterTheme {
                 val navController = rememberNavController()
