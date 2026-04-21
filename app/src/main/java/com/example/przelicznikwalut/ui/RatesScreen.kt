@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -55,7 +56,7 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
     val allCurrencies = listOf(
         "THB", "USD", "AUD", "HKD", "CAD", "NZD", "SGD", "EUR", "HUF", "CHF", "GBP", "UAH",
         "JPY", "CZK", "DKK", "ISK", "NOK", "SEK", "RON", "BGN", "TRY", "ILS", "CLP", "PHP",
-        "MXN", "ZAR", "BRL", "MYR", "IDR", "INR", "KRW", "CNY", "XDR", "PLN"
+        "MXN", "ZAR", "BRL", "MYR", "IDR", "INR", "KRW", "CNY", "XDR"
     )
 
     var selectedCurrency by remember { mutableStateOf(allCurrencies.first()) }
@@ -210,11 +211,19 @@ fun RatesScreen(navController: NavHostController, viewModel: RatesViewModel = vi
                             }
                         }
 
-                        IconButton(onClick = { viewModel.removeCurrency(currency) }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = stringResource(R.string.delete_currency)
-                            )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(onClick = { navController.navigate("chart/${currency.code}") }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ShowChart,
+                                    contentDescription = stringResource(R.string.show_chart)
+                                )
+                            }
+                            IconButton(onClick = { viewModel.removeCurrency(currency) }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = stringResource(R.string.delete_currency)
+                                )
+                            }
                         }
                     }
                 }

@@ -24,4 +24,8 @@
     <string name="history_3_months">3 miesiące</string>
     <string name="history_1_year">1 rok</string>
     <string name="history_5_years">5 lat</string>
+    <string name="chart_title">Wykres %1$s</string>
+    <string name="chart_min_max">Min: %1$.4f  |  Max: %2$.4f</string>
+    <string name="chart_description">Zmiany kursu w okresie: %1$s</string>
+    <string name="show_chart">Pokaż wykres</string>
 </resources>

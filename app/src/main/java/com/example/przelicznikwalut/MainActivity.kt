@@ -19,6 +19,7 @@ import com.example.przelicznikwalut.ui.CurrencyConverterScreen
 import com.example.przelicznikwalut.ui.RatesScreen
 import com.example.przelicznikwalut.ui.theme.CurrencyConverterTheme
 import com.example.przelicznikwalut.ui.BottomNavItem
+import com.example.przelicznikwalut.ui.CurrencyChartScreen
 import com.example.przelicznikwalut.ui.HistoricalRatesScreen
 import com.example.przelicznikwalut.ui.isRouteSelected
 import com.google.firebase.FirebaseApp
@@ -55,6 +56,18 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             val code = backStackEntry.arguments?.getString("code") ?: return@composable
                             HistoricalRatesScreen(
+                                code = code,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+                        composable(
+                            route = "chart/{code}",
+                            arguments = listOf(
+                                navArgument("code") { type = NavType.StringType }
+                            )
+                        ) { backStackEntry ->
+                            val code = backStackEntry.arguments?.getString("code") ?: return@composable
+                            CurrencyChartScreen(
                                 code = code,
                                 onBack = { navController.popBackStack() }
                             )
